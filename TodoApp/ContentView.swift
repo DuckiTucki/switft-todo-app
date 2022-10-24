@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    var categoryList = ["All" ,"Shopping list", "Work", "Activites"]
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationStack{
+            ScrollView (.horizontal, showsIndicators: false) {
+                HStack (spacing: 20) {
+                    Text("Hej")
+                        .padding([.bottom, .top], 10)
+                        .padding([.horizontal], 20)
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(50)
+                    Text("Hejsan")
+                }
+                .padding()
+            }
+            List {
+                
+            }
+            .navigationTitle("The best todo app")
         }
-        .padding()
     }
 }
 
