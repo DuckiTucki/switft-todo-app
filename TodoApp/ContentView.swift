@@ -7,15 +7,18 @@
 
 import SwiftUI
 
-struct todoList: Hashable {
+struct TodoTask: Hashable {
     let title: String
     let cateogory: String
     var isDone = false
 }
 
 struct ContentView: View {
-    let selectedCategory = 0;
-    let categoryList = ["All", "Shopping", "Work", "Activites", "School"]
+    @State private var selectedCategory = 0;
+    let categoryList = ["General", "Shopping", "Work", "Activites", "School"]
+    
+    @State private var inputText = ""
+    @State private var todoList: [TodoTask] = [TodoTask(title: "Lägg till textfält", cateogory: "General"), TodoTask(title: "Få denna listan att funkar", cateogory: "General")]
     var body: some View {
         NavigationStack{
             ScrollView (.horizontal, showsIndicators: false) {
@@ -27,12 +30,26 @@ struct ContentView: View {
                             .background(selectedCategory == i ? .blue : Color(UIColor.lightGray))
                             .foregroundColor(.white)
                             .cornerRadius(50)
+                            .onTapGesture {
+                                selectedCategory = i
+                            }
                     }
                 }
                 .padding()
             }
             List {
-                
+                ForEach(todoList, id: \.self) { object in
+                    Text(object.title)
+                }
+            }
+            HStack {
+                TextField("New todo", text: $inputText)
+                    .onSubmit {
+                        todoList.append(TodoTask(title: inputText, cateogory: categoryList[selectedCategory]))
+                        inputText = "";
+                    }
+                    .padding([.horizontal], 20)
+                    .padding([.vertical], 10)
             }
             .navigationTitle("The best todo app")
         }
