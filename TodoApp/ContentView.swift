@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TodoTask: Hashable {
     let title: String
-    let cateogory: String
+    let category: String
     var isDone = false
 }
 
@@ -18,7 +18,7 @@ struct ContentView: View {
     let categoryList = ["General", "Shopping", "Work", "Activites", "School"]
     
     @State private var inputText = ""
-    @State private var todoList: [TodoTask] = [TodoTask(title: "Lägg till textfält", cateogory: "General"), TodoTask(title: "Få denna listan att funkar", cateogory: "General")]
+    @State private var todoList: [TodoTask] = [TodoTask(title: "Lägg till textfält", category: "General"), TodoTask(title: "Få denna listan att funkar", category: "General")]
     var body: some View {
         NavigationStack{
             ScrollView (.horizontal, showsIndicators: false) {
@@ -39,13 +39,15 @@ struct ContentView: View {
             }
             List {
                 ForEach(todoList, id: \.self) { object in
-                    Text(object.title)
+                    if(object.category == categoryList[selectedCategory]){
+                        Text(object.title)
+                    }
                 }
             }
             HStack {
                 TextField("New todo", text: $inputText)
                     .onSubmit {
-                        todoList.append(TodoTask(title: inputText, cateogory: categoryList[selectedCategory]))
+                        todoList.append(TodoTask(title: inputText, category: categoryList[selectedCategory]))
                         inputText = "";
                     }
                     .padding([.horizontal], 20)
