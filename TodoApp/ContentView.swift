@@ -40,7 +40,20 @@ struct ContentView: View {
             List {
                 ForEach(todoList, id: \.self) { object in
                     if(object.category == categoryList[selectedCategory]){
-                        Text(object.title)
+                        HStack {
+                            Image(systemName: object.isDone ? "checkmark.square" : "square")
+                                .onTapGesture {
+                                    if let index = todoList.firstIndex(of: object){
+                                        todoList[index].isDone.toggle()
+                                    }
+                                }
+                            Text(object.title)
+                        }
+                    }
+                }
+                .onDelete { indexSet in
+                    indexSet.forEach { index in
+                        todoList.remove(at: index)
                     }
                 }
             }
